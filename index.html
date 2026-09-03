@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Central de Segurança</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; min-height: 100vh; background: #050505; color: #e8e8e8;
+    font-family: Consolas, "Courier New", monospace;
+    display: flex; align-items: center; justify-content: center; padding: 24px;
+  }
+  .box {
+    width: min(720px, 100%); border: 1px solid #444; background: #0b0b0b;
+    box-shadow: 0 0 40px rgba(255,0,0,.12); padding: 28px;
+  }
+  .top { color: #ff4545; font-size: 13px; margin-bottom: 22px; }
+  h1 { font-size: clamp(22px, 5vw, 36px); margin: 0 0 12px; }
+  p { color: #aaa; line-height: 1.6; }
+  .line { height: 2px; background: #252525; margin: 24px 0; }
+  .status { margin: 14px 0; min-height: 24px; }
+  .label { color: #777; }
+  .progress {
+    width: 100%; height: 18px; border: 1px solid #444; padding: 2px; margin: 22px 0;
+  }
+  .bar { height: 100%; width: 0%; background: #d22; transition: width .12s linear; }
+  #final { display: none; text-align: center; padding: 28px 10px 8px; }
+  #final h2 { font-size: clamp(28px, 7vw, 52px); margin: 0 0 18px; }
+  #final .big { font-size: 20px; color: #fff; }
+  .skull { font-size: 64px; margin-bottom: 8px; }
+  button {
+    background: transparent; border: 1px solid #555; color: #aaa; padding: 10px 16px;
+    font: inherit; cursor: pointer; margin-top: 18px;
+  }
+  button:hover { border-color: #aaa; color: white; }
+  .blink { animation: blink 1s steps(2,end) infinite; }
+  @keyframes blink { 50% { opacity: .25; } }
+</style>
+</head>
+<body>
+<div class="box">
+  <div class="top">SECURITY MONITOR // SESSION CHECK</div>
+
+  <section id="scan">
+    <h1>⚠ ALERTA DE SEGURANÇA</h1>
+    <p>Uma tentativa de acesso suspeita foi detectada nesta sessão.</p>
+
+    <div class="line"></div>
+
+    <div class="status"><span class="label">Usuário identificado:</span> DAVINA VICTÓRIA MELO NASCIMENTO</div>
+    <div class="status"><span class="label">Origem:</span> SCOTT_MCCAALL.exe</div>
+    <div class="status"><span class="label">Nível de ameaça:</span> <span id="threat">analisando...</span></div>
+
+    <div class="progress"><div class="bar" id="bar"></div></div>
+    <div id="percent">Analisando dispositivo... 0%</div>
+
+    <p id="message" class="blink">Não feche esta janela.</p>
+  </section>
+
+  <section id="final">
+    <div class="skull">💀</div>
+    <h2>ACESSO CONFIRMADO.</h2>
+    <p class="big">Você caiu na própria pegadinha. 😂</p>
+    <p>Parabéns, Davina. Seu sistema foi oficialmente diagnosticado com:</p>
+    <p class="big"><strong>EXCESSO DE CONFIANÇA EM E-MAILS DO PIVA.</strong></p>
+    <p>Scott McCall mandou lembranças. 🐺</p>
+    <button onclick="location.reload()">Tentar novamente</button>
+  </section>
+</div>
+
+<script>
+  const bar = document.getElementById("bar");
+  const percent = document.getElementById("percent");
+  const threat = document.getElementById("threat");
+  const message = document.getElementById("message");
+  const scan = document.getElementById("scan");
+  const final = document.getElementById("final");
+
+  let n = 0;
+  const timer = setInterval(() => {
+    n += Math.floor(Math.random() * 5) + 1;
+    if (n > 100) n = 100;
+
+    bar.style.width = n + "%";
+    percent.textContent = "Analisando dispositivo... " + n + "%";
+
+    if (n >= 30) threat.textContent = "ATENÇÃO";
+    if (n >= 60) threat.textContent = "RISCO ELEVADO";
+    if (n >= 85) {
+      threat.textContent = "CRÍTICO";
+      message.textContent = "Finalizando análise...";
+    }
+
+    if (n === 100) {
+      clearInterval(timer);
+      setTimeout(() => {
+        scan.style.display = "none";
+        final.style.display = "block";
+      }, 900);
+    }
+  }, 120);
+</script>
+</body>
+</html>
